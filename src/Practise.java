@@ -92,3 +92,78 @@ static int d1 = -1;
           
         return -1; 
     } 
+
+
+int findMaxUtil(Node node, Res res) 
+    { 
+  
+        // Base Case 
+        if (node == null) 
+            return 0; 
+  
+        // l and r store maximum path sum going through left and 
+        // right child of root respectively 
+        int l = findMaxUtil(node.left, res); 
+        int r = findMaxUtil(node.right, res); 
+  
+        // Max path for parent call of root. This path must 
+        // include at-most one child of root 
+        int max_single = Math.max(Math.max(l, r) + node.data, 
+                                  node.data); 
+  
+  
+        // Max Top represents the sum when the Node under 
+        // consideration is the root of the maxsum path and no 
+        // ancestors of root are there in max sum path 
+        int max_top = Math.max(max_single, l + r + node.data); 
+  
+        // Store the Maximum Result. 
+        res.val = Math.max(res.val, max_top); 
+  
+        return max_single; 
+    } 
+    
+    
+    
+public int bstDistance(TreeNode root, int node1, int node2) {
+    if (root == null) return -1;
+    TreeNode lca = lca(root, node1, node2);
+    return getDistance(lca, node1) + getDistance(lca, node2);
+}
+
+private int getDistance(TreeNode src, int dest) {
+    if (src.val == dest) return 0;
+    TreeNode node = src.left;
+    if (src.val < dest) {
+        node = src.right;
+    }
+    return 1 + getDistance(node, dest);
+}
+
+private TreeNode lca(TreeNode root, int node1, int node2) {
+    while (true) {
+        if (root.val > node1 && root.val > node2) {
+            root = root.left;
+        } else if (root.val < node1 && root.val < node2) {
+            root = root.right;
+        } else {
+            return root;
+        }
+    }
+}
+
+
+if (root == null){
+            return null;
+        }if (nodeA == root || nodeB == root){
+            return root;
+        }
+        TreeNode left = LCA(root.left,node1,node2);
+        TreeNode right = LCA(root.right,node1,node2);
+        if (left != null && right != null){
+            return root;
+        }
+        if (left == null){
+            return right;
+        }else return left;
+ 
