@@ -1,6 +1,6 @@
 /*
- Author:     Andy, nkuwjg@gmail.com
- Date:       Dec 13, 2014
+ Author:     Veronica Kumar
+ Date:       Feb 11, 2024
  Problem:    Two Sum
  Difficulty: Medium
  Source:     https://oj.leetcode.com/problems/two-sum/
@@ -15,21 +15,44 @@
  Input: numbers={2, 7, 11, 15}, target=9
  Output: index1=1, index2=2
 
- Solution: 1. Hash table. O(n)
-           
- Note:  Hash Table solution has been updated.  In case that the two elements are the same, 
-        all the indices should be stored in the map.
+ Solution: 1. Hash Map. O(n)
  */
 
 public class Solution {
-    public int[] twoSum(int[] numbers, int target) {
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-        for (int i = 0; i < numbers.length; ++i) {
-            int b = target - numbers[i];
-            if (map.get(b) != null) {
-                return new int[]{map.get(b),i+1};
-            } else map.put(numbers[i],i+1);
+
+    //Brute Force
+    public int[] twoSum(int[] nums, int target) {
+       int result[] = new int[2];
+       for(int i =0; i< nums.length; i++) {
+           for(int j = i+1; j < nums.length; j++) {
+               int newSum = target - nums[i];
+
+               if(nums[j] == newSum) {
+                   result[0] = i;
+                   result[1] = j;
+                   return result;
+               }
+           }
+       }
+       return result;
+    }
+
+    //HashMap Solution with O(n) complexity.
+     public int[] twoSum(int[] nums, int target) {
+        int result[] = new int[2];
+        //corner cases
+        if(nums == null || nums.length == 0 )
+            return result;
+
+        HashMap<Integer, Integer> visited = new HashMap<>();
+        for(int i = 0; i< nums.length; i++) {
+            if(visited.containsKey(target - nums[i])) {
+                result[0] = visited.get(target - nums[i]);
+                result[1] = i;
+                return result;
+            }
+            visited.put(nums[i], i);
         }
-        return null;
+        return result;
     }
 }
